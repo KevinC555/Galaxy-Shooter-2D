@@ -54,6 +54,11 @@ public class Laser : MonoBehaviour
         _isEnemyLaser = true;
     }
 
+    public bool IsEnemyLaser()
+    {
+        return _isEnemyLaser;
+    }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.tag == "Player" && _isEnemyLaser == true)

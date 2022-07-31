@@ -77,23 +77,28 @@ public class Enemy : MonoBehaviour
             _anim.SetTrigger("OnEnemyDeath");
             _speed = 0;
             _audioSource.Play();
+
             Destroy(this.gameObject, 2.8f);
         }
 
         if (other.tag == "Laser")
         {
-            Destroy(other.gameObject);
-            if (_player != null)
+            Laser laser = other.transform.GetComponent<Laser>();
+            if (laser != null && laser.IsEnemyLaser() == false)
             {
-                _player.AddScore(10);
+                Destroy(other.gameObject);
+                if (_player != null)
+                {
+                    _player.AddScore(10);
+                }
+
+                _anim.SetTrigger("OnEnemyDeath");
+                _speed = 0;
+                _audioSource.Play();
+
+                Destroy(GetComponent<Collider2D>());
+                Destroy(this.gameObject, 2.8f);
             }
-
-            _anim.SetTrigger("OnEnemyDeath");
-            _speed = 0;
-            _audioSource.Play();
-
-            Destroy(GetComponent<Collider2D>());
-            Destroy(this.gameObject, 2.8f);
         }
     }
 }
