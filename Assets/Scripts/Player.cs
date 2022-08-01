@@ -43,6 +43,8 @@ public class Player : MonoBehaviour
 
     [SerializeField]
     private AudioClip _laserAudio;
+    [SerializeField]
+    private AudioClip _ammolessAudio;
     private AudioSource _audioSource;
 
     Material material;
@@ -87,7 +89,12 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && Time.time > _canFire && _ammo > 0)
         {
             FireLaser();
-        }    
+        }
+        else if (Input.GetKeyDown(KeyCode.Space) && _ammo <= 0)
+        {
+            AudioSource.PlayClipAtPoint(_ammolessAudio, transform.position);
+
+        }
     }
 
     void CalculateMovement()
@@ -144,6 +151,25 @@ public class Player : MonoBehaviour
         _audioSource.Play();
     }
 
+    void CheckEngineDamage()
+    {
+        if (_lives == 3)
+        {
+            _rightDamageVisualizer.SetActive(false);
+            _leftDamageVisualizer.SetActive(false);
+        }
+        else if (_lives == 2)
+        {
+            _rightDamageVisualizer.SetActive(true);
+            _leftDamageVisualizer.SetActive(false);
+        }
+        else if (_lives == 1)
+        {
+            _rightDamageVisualizer.SetActive(true);
+            _leftDamageVisualizer.SetActive(true);
+        }
+    }
+
     public void Damage()
     {
         if (_isShieldsActive == true)
@@ -172,14 +198,7 @@ public class Player : MonoBehaviour
         }
         _lives--;
 
-        if (_lives == 2)
-        {
-            _rightDamageVisualizer.SetActive(true);
-        }
-        else if (_lives == 1)
-        {
-            _leftDamageVisualizer.SetActive(true);
-        }
+        CheckEngineDamage();
 
         _uiManager.UpdateLives(_lives);
 
@@ -230,6 +249,17 @@ public class Player : MonoBehaviour
     {
         _ammo += bullets;
         _uiManager.UpdateAmmo(_ammo);
+    }
+
+    public void AddHealth()
+    {
+        if (_lives < 3)
+        {
+            _lives++;
+            _uiManager.UpdateLives(_lives);
+        }
+
+        CheckEngineDamage();
     }
 
     void Thrusters()

@@ -567,6 +567,7 @@ MonoBehaviour:
   - {fileID: 7263744239879103415, guid: db383e380402fdf4d80b7d013b536a41, type: 3}
   - {fileID: 1894318132779346600, guid: 3cb8eb22346b0084d8a713929fbbc950, type: 3}
   - {fileID: 945003109251433766, guid: 3a4c33e4036a1c340ad8b71b343fd935, type: 3}
+  - {fileID: 8913333135010682130, guid: 7ba7e70f919ed09408d85d3fddb08c98, type: 3}
   _enemyContainer: {fileID: 1840060965}
 --- !u!4 &243111987
 Transform:
@@ -628,6 +629,7 @@ MonoBehaviour:
   _score: 0
   _ammo: 20
   _laserAudio: {fileID: 8300000, guid: 75676f361bdfeaf41a46623e95df3dbc, type: 3}
+  _ammolessAudio: {fileID: 8300000, guid: 333a015ef7d73d24599767a13a58922a, type: 3}
 --- !u!212 &276451745
 SpriteRenderer:
   m_ObjectHideFlags: 0
