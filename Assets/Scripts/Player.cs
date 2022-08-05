@@ -9,12 +9,11 @@ public class Player : MonoBehaviour
     //every variable has a name
     //optional value assigned
     [SerializeField]
-    private float _speed = 3.5f;
-    private float _speedMultiplier = 2;
-    [SerializeField]
     private GameObject _laserPrefab;
     [SerializeField]
     private GameObject _tripleShotPrefab;
+    [SerializeField]
+    private GameObject _secondaryPrefab;
     [SerializeField]
     private float _fireRate = 0.5f;
     private float _canFire = -1f;
@@ -25,6 +24,7 @@ public class Player : MonoBehaviour
     private bool _isTripleShotActive = false;
     private bool _isSpeedBoostActive = false;
     private bool _isShieldsActive = false;
+    private bool _isSecondaryActive = false;
     private int _shieldLives = 3;
 
     [SerializeField]
@@ -33,6 +33,10 @@ public class Player : MonoBehaviour
     private GameObject _rightDamageVisualizer;
     [SerializeField]
     private GameObject _leftDamageVisualizer;
+    [SerializeField]
+    private GameObject _playerLeft;
+    [SerializeField]
+    private GameObject _playerRight;
 
     [SerializeField]
     private int _score;
@@ -48,6 +52,28 @@ public class Player : MonoBehaviour
     private AudioSource _audioSource;
 
     Material material;
+
+    [SerializeField]
+    private float _baseSpeed = 3f;
+    [SerializeField]
+    private float _thrusterSpeed = 6f;
+    [SerializeField]
+    private Transform _thrusterTransform;
+    [SerializeField]
+    private float _thrusterSizeMultiplier = 1.8f;
+    [SerializeField]
+    private float _speedPowerupMultiplier = 1.6f;
+    [SerializeField]
+    private float _fuelAmount = 100f;
+    [SerializeField]
+    private bool _emptyTank = false;
+    [SerializeField]
+    private float _fuelLossPerSecond = 10f;
+    [SerializeField]
+    private float _fuelRechargedPerSecond = 10f;
+    [SerializeField]
+    private float _fuelRechargedDelay = 3f;
+    private bool _canRechargeFuel = false;
 
 
     // Start is called before the first frame update
@@ -84,8 +110,6 @@ public class Player : MonoBehaviour
     {
         CalculateMovement();
 
-        Thrusters();
-
         if (Input.GetKeyDown(KeyCode.Space) && Time.time > _canFire && _ammo > 0)
         {
             FireLaser();
@@ -102,16 +126,23 @@ public class Player : MonoBehaviour
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
 
-        Vector3 direction = new Vector3(horizontalInput, verticalInput, 0);
+        Vector3 direction = Vector3.Normalize(new Vector3(horizontalInput, verticalInput, 0f));
 
-        if (_isSpeedBoostActive)
+        bool isMoving = direction.magnitude >= .01f;
+        
+
+        float speed = CheckThrusters(isMoving);
+
+        if (_isSpeedBoostActive == true)
         {
-            transform.Translate(direction * _speed * _speedMultiplier * Time.deltaTime);
+            speed *= _speedPowerupMultiplier;
         }
         else
         {
-            transform.Translate(direction * _speed * Time.deltaTime);
+            speed /= _speedPowerupMultiplier;
         }
+
+        transform.position += direction * speed * Time.deltaTime;
       
         if (transform.position.y >= 0)
         {
@@ -140,6 +171,10 @@ public class Player : MonoBehaviour
         {
             Instantiate(_tripleShotPrefab, transform.position, Quaternion.identity);
         }
+        else if (_isSecondaryActive == true)
+        {
+            Instantiate(_secondaryPrefab, transform.position, Quaternion.identity);
+        }
         else
         {
             Instantiate(_laserPrefab, transform.position + new Vector3(0, 1.05f, 0), Quaternion.identity);
@@ -149,6 +184,55 @@ public class Player : MonoBehaviour
         _uiManager.UpdateAmmo(_ammo);
 
         _audioSource.Play();
+    }
+
+    float CheckThrusters(bool isMoving)
+    {
+        float speed;
+        if (Input.GetKey(KeyCode.LeftShift) && !_emptyTank && isMoving)
+        {
+            speed = _thrusterSpeed;
+            _canRechargeFuel = false;
+            _fuelAmount -= _fuelLossPerSecond * Time.deltaTime;
+            _thrusterTransform.localScale = Vector3.one * _thrusterSizeMultiplier;
+        }
+        else if (Input.GetKeyUp(KeyCode.LeftShift))
+        {
+            speed = _baseSpeed;
+            StartCoroutine(RechargeDelay());
+        }
+        else
+        {
+            speed = _baseSpeed;
+            
+            if (_canRechargeFuel == true)
+            {
+                _fuelAmount += _fuelRechargedPerSecond * Time.deltaTime;
+            }
+
+            _thrusterTransform.localScale = Vector3.one;
+        }
+
+        if (_fuelAmount <= 0)
+        {
+            _fuelAmount = 0;
+            _emptyTank = true;
+        }
+        else if (_fuelAmount >= 100)
+        {
+            _fuelAmount = 100;
+            _emptyTank = false;
+        }
+
+        _uiManager.UpdateFuelGauge(_fuelAmount);
+
+        return speed;
+    }
+
+    IEnumerator RechargeDelay()
+    {
+        yield return new WaitForSeconds(_fuelRechargedDelay);
+        _canRechargeFuel = true;
     }
 
     void CheckEngineDamage()
@@ -197,6 +281,7 @@ public class Player : MonoBehaviour
             return;
         }
         _lives--;
+        //shake camera
 
         CheckEngineDamage();
 
@@ -219,6 +304,22 @@ public class Player : MonoBehaviour
     {
         yield return new WaitForSeconds(5.0f);
         _isTripleShotActive = false;
+    }
+
+    public void SecondaryFire()
+    {
+        _isSecondaryActive = true;
+        _playerLeft.SetActive(true);
+        _playerRight.SetActive(true);
+        StartCoroutine(SecondaryCoolDown());
+    }
+
+    IEnumerator SecondaryCoolDown()
+    {
+        yield return new WaitForSeconds(5.0f);
+        _isSecondaryActive = false;
+        _playerLeft.SetActive(false);
+        _playerRight.SetActive(false);
     }
 
     public void SpeedBoostActive()
@@ -260,17 +361,5 @@ public class Player : MonoBehaviour
         }
 
         CheckEngineDamage();
-    }
-
-    void Thrusters()
-    {
-        if (Input.GetKeyDown(KeyCode.LeftShift))
-        {
-            _speed = 7.0f;
-        }
-        else if (Input.GetKeyUp(KeyCode.LeftShift))
-        {
-            _speed = 5.0f;
-        }
     }
 }

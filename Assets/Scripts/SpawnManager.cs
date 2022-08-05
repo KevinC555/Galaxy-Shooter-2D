@@ -44,6 +44,18 @@ public class SpawnManager : MonoBehaviour
         }
     }
 
+    IEnumerator SpawnSecondaryFire()
+    {
+        yield return new WaitForSeconds(3.0f);
+
+        while (_stopSpawning == false)
+        {
+            yield return new WaitForSeconds(Random.Range(40f, 80f));
+            Vector3 posToSpawn = new Vector3(Random.Range(-8f, 8f), 7, 0);
+            Instantiate(_powerups[5], posToSpawn, Quaternion.identity);
+        }
+    }
+
     public void OnPlayerDeath()
     {
         _stopSpawning = true;

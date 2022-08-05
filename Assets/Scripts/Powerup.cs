@@ -50,6 +50,10 @@ public class Powerup : MonoBehaviour
                     case 4:
                         player.AddHealth();
                         break;
+                    case 5:
+                        other.transform.GetComponent<Player>().SecondaryFire();
+                        Destroy(this.gameObject);
+                        break;
                     default:
                         Debug.Log("Default Value");
                         break;

@@ -20,6 +20,16 @@ public class UIManager : MonoBehaviour
 
     private GameManager _gameManager;
 
+    [SerializeField]
+    private Slider _fuelGauge;
+
+    [SerializeField]
+    private Text _fuelText;
+    [SerializeField]
+    private string _fuelGaugeString = "Full";
+    [SerializeField]
+    private string _emptyGaugeString = "Emptying";
+
     // Start is called before the first frame update
     void Start()
     {
@@ -51,6 +61,21 @@ public class UIManager : MonoBehaviour
         if (currentLives == 0)
         {
             GameOverSequence();
+        }
+    }
+
+    public void UpdateFuelGauge(float gaugeAmount) 
+    {
+        _fuelGauge.value = gaugeAmount;
+
+        if (gaugeAmount >= 1)
+        {
+            _fuelText.text = _fuelGaugeString;
+        }
+
+        if (gaugeAmount <= 0)
+        {
+            _fuelText.text = _emptyGaugeString;
         }
     }
 
