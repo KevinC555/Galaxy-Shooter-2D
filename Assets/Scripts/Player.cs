@@ -20,6 +20,7 @@ public class Player : MonoBehaviour
     [SerializeField]
     private int _lives = 3;
     private SpawnManager _spawnManager;
+    private CameraShake _camera;
     
     private bool _isTripleShotActive = false;
     private bool _isSpeedBoostActive = false;
@@ -82,6 +83,7 @@ public class Player : MonoBehaviour
         transform.position = new Vector3(0, 0, 0);
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
+        _camera = GameObject.Find("Main Camera").GetComponent<CameraShake>();
         _audioSource = GetComponent<AudioSource>();
         material = _shieldVisualizer.GetComponent<Renderer>().material;
 
@@ -98,6 +100,10 @@ public class Player : MonoBehaviour
         if (_audioSource == null)
         {
             Debug.LogError("AudioSource on the player is null.");
+        }
+        if (_camera == null)
+        {
+            Debug.LogError("Camera is null.");
         }
         else
         {
@@ -281,7 +287,7 @@ public class Player : MonoBehaviour
             return;
         }
         _lives--;
-        //shake camera
+        StartCoroutine(_camera.ShakeCamera(0.5f, 0.3f));
 
         CheckEngineDamage();
 
