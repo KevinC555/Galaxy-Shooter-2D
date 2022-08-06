@@ -6,6 +6,7 @@ public class Enemy : MonoBehaviour
 {
     [SerializeField]
     private float _speed = 4.0f;
+    private float _startingXPos;
     [SerializeField]
     private GameObject _laserPrefab;
 
@@ -20,6 +21,8 @@ public class Enemy : MonoBehaviour
     {
         _player = GameObject.Find("Player").GetComponent<Player>();
         _audioSource = GetComponent<AudioSource>();
+
+        _startingXPos = transform.position.x;
 
         if (_player == null)
         {
@@ -38,6 +41,7 @@ public class Enemy : MonoBehaviour
     void Update()
     {
         CalculateMovement();
+        ZigZagMovement();
 
         if (Time.time > _canFire)
         {
@@ -60,6 +64,22 @@ public class Enemy : MonoBehaviour
         if (transform.position.y < -8f)
         {
             transform.position = new Vector3(Random.Range(-8f, 8f), 7, 0);
+        }
+    }
+
+    void ZigZagMovement()
+    {
+        if (transform.position.y < 4)
+        {
+            if (_startingXPos > 0)
+            {
+                transform.Translate(Vector3.left * _speed * Time.deltaTime);
+            }
+
+            else if (_startingXPos <= 0)
+            {
+                transform.Translate(Vector3.right * _speed * Time.deltaTime);
+            }
         }
     }
 

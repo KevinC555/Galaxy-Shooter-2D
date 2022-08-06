@@ -45,7 +45,7 @@ public class Powerup : MonoBehaviour
                         player.ShieldsActive();
                         break;
                     case 3:
-                        player.AddAmmo(20);
+                        player.AddAmmo(15);
                         break;
                     case 4:
                         player.AddHealth();

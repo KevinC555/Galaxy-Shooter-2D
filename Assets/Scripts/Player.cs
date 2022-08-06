@@ -354,7 +354,15 @@ public class Player : MonoBehaviour
 
     public void AddAmmo(int bullets)
     {
-        _ammo += bullets;
+        if (bullets >= _ammo)
+        {
+            _ammo = 15;
+        }
+        else
+        {
+            _ammo += bullets;
+        }
+        
         _uiManager.UpdateAmmo(_ammo);
     }
 

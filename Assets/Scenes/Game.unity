@@ -890,7 +890,7 @@ MonoBehaviour:
   _playerLeft: {fileID: 273386049}
   _playerRight: {fileID: 4526255}
   _score: 0
-  _ammo: 20
+  _ammo: 15
   _laserAudio: {fileID: 8300000, guid: 75676f361bdfeaf41a46623e95df3dbc, type: 3}
   _ammolessAudio: {fileID: 8300000, guid: 333a015ef7d73d24599767a13a58922a, type: 3}
   _baseSpeed: 3
@@ -2511,8 +2511,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -100, y: -74.8}
-  m_SizeDelta: {x: 96.7523, y: 28.4821}
+  m_AnchoredPosition: {x: -76.5, y: -73.6459}
+  m_SizeDelta: {x: 144, y: 26.1738}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1937943057
 MonoBehaviour:
@@ -2539,7 +2539,7 @@ MonoBehaviour:
     m_FontSize: 20
     m_FontStyle: 0
     m_BestFit: 0
-    m_MinSize: 2
+    m_MinSize: 1
     m_MaxSize: 40
     m_Alignment: 0
     m_AlignByGeometry: 0
@@ -2547,7 +2547,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Ammo: 20'
+  m_Text: 'Ammo: 15 / 15'
 --- !u!222 &1937943058
 CanvasRenderer:
   m_ObjectHideFlags: 0
