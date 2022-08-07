@@ -17,6 +17,10 @@ public class UIManager : MonoBehaviour
     private Text _gameOverText;
     [SerializeField]
     private Text _restartText;
+    [SerializeField]
+    private Text _waveText;
+    [SerializeField]
+    private Text _waveTextRequirement;
 
     private GameManager _gameManager;
 
@@ -79,6 +83,15 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    public void UpdateWave(int _waveNumber)
+    {
+        _waveText.gameObject.SetActive(true);
+        _waveText.text = "Wave: " + _waveNumber;
+        _waveTextRequirement.gameObject.SetActive(true);
+        _waveTextRequirement.text = "Earn " + 50 * _waveNumber + " points to reach next Wave";
+        StartCoroutine(WaveTextInactive());
+    }
+
     void GameOverSequence()
     {
         _gameManager.GameOver();
@@ -95,6 +108,16 @@ public class UIManager : MonoBehaviour
             yield return new WaitForSeconds(0.5f);
             _gameOverText.text = " ";
             yield return new WaitForSeconds(0.5f);
+        }
+    }
+
+    IEnumerator WaveTextInactive()
+    {
+        if (_waveText.gameObject.activeInHierarchy)
+        {
+            yield return new WaitForSeconds(3);
+            _waveText.gameObject.SetActive(false);
+            _waveTextRequirement.gameObject.SetActive(false);
         }
     }
 

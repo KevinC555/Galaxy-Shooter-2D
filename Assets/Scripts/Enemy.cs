@@ -92,6 +92,7 @@ public class Enemy : MonoBehaviour
             if (player != null)
             {
                 player.Damage();
+                _player.AddScore(10);
             }
 
             _anim.SetTrigger("OnEnemyDeath");
