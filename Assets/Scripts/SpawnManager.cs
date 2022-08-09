@@ -7,7 +7,7 @@ public class SpawnManager : MonoBehaviour
     [SerializeField]
     private GameObject _enemyPrefab;
     [SerializeField]
-    private GameObject[] _powerups;
+    private GameObject _rareEnemyPrefab;
     [SerializeField]
     private GameObject _enemyContainer;
     private bool _stopSpawning = false;
@@ -18,6 +18,13 @@ public class SpawnManager : MonoBehaviour
     private int _waitSeconds;
 
     private WaveManager _waveManager;
+
+    [SerializeField]
+    private GameObject[] _commonPowerups;
+    [SerializeField]
+    private GameObject[] _rarePowerups;
+    [SerializeField]
+    private GameObject[] _extraRarePowerups;
 
     public void Start()
     {
@@ -34,8 +41,8 @@ public class SpawnManager : MonoBehaviour
     public void StartSpawning()
     {
         StartCoroutine(SpawnEnemyRoutine());
+        StartCoroutine(SpawnRareEnemy());
         StartCoroutine(SpawnPowerupRoutine());
-        StartCoroutine(SpawnSecondaryFire());
     }
 
     IEnumerator SpawnEnemyRoutine()
@@ -65,28 +72,58 @@ public class SpawnManager : MonoBehaviour
         }
     }
 
+    IEnumerator SpawnRareEnemy()
+    {
+        yield return new WaitForSeconds(2.0f);
+
+        while (_stopSpawning == false)
+        {
+            Vector3 posToSpawn = new Vector3(Random.Range(-8f, 8f), 7, 0);
+            GameObject newEnemy = Instantiate(_rareEnemyPrefab, posToSpawn, Quaternion.identity);
+            newEnemy.transform.parent = _enemyContainer.transform;
+
+            yield return new WaitForSeconds(6f);
+        }
+    }
+
     IEnumerator SpawnPowerupRoutine()
     {
         yield return new WaitForSeconds(3.0f);
 
         while (_stopSpawning == false)
         {
-            Vector3 posToSpawn = new Vector3(Random.Range(-8f, 8f), 7, 0);
-            int randomPowerup = Random.Range(0, 7);
-            Instantiate(_powerups[randomPowerup], posToSpawn, Quaternion.identity);
-            yield return new WaitForSeconds(Random.Range(3, 8));
-        }
-    }
+            float randomXPosition = Random.Range(-8f, 8f);
+            Vector3 spawnPosition = new Vector3(randomXPosition, 7, 0);
+            float randomSpawnTime = Random.Range(3f, 7f);
+            int powerupChance = Random.Range(0, 11);
+            int randomCommonPowerup = Random.Range(0, _commonPowerups.Length);
+            int randomRarePowerup = Random.Range(0, _rarePowerups.Length);
+            int randomExtraRarePowerup = Random.Range(0, _extraRarePowerups.Length);
 
-    IEnumerator SpawnSecondaryFire()
-    {
-        yield return new WaitForSeconds(3.0f);
-
-        while (_stopSpawning == false)
-        {
-            yield return new WaitForSeconds(Random.Range(40f, 80f));
-            Vector3 posToSpawn = new Vector3(Random.Range(-8f, 8f), 7, 0);
-            Instantiate(_powerups[5], posToSpawn, Quaternion.identity);
+            switch (powerupChance)
+            {
+                case 1:
+                case 2:
+                case 3:
+                case 4:
+                case 5:
+                case 6:
+                    Instantiate(_commonPowerups[randomCommonPowerup], spawnPosition, Quaternion.identity);
+                    break;
+                case 7:
+                case 8:
+                case 9:
+                    Instantiate(_rarePowerups[randomRarePowerup], spawnPosition, Quaternion.identity);
+                    break;
+                case 10:
+                    Instantiate(_extraRarePowerups[randomExtraRarePowerup], spawnPosition, Quaternion.identity);
+                    break;
+                default:
+                    Debug.Log("Default powerup value");
+                    break;
+            }
+            
+            yield return new WaitForSeconds(randomSpawnTime);
         }
     }
 

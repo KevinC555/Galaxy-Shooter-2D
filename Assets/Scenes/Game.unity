@@ -738,17 +738,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enemyPrefab: {fileID: 3113042194864590440, guid: 2771df549647fc64380a20be46f68758, type: 3}
-  _powerups:
-  - {fileID: 6193407018733379615, guid: d802c3c369ea7e94db24f8b97decc19e, type: 3}
-  - {fileID: 7263744239879103415, guid: db383e380402fdf4d80b7d013b536a41, type: 3}
-  - {fileID: 1894318132779346600, guid: 3cb8eb22346b0084d8a713929fbbc950, type: 3}
-  - {fileID: 945003109251433766, guid: 3a4c33e4036a1c340ad8b71b343fd935, type: 3}
-  - {fileID: 8913333135010682130, guid: 7ba7e70f919ed09408d85d3fddb08c98, type: 3}
-  - {fileID: 7231732651798971806, guid: 6e12f71aa2fbc6342abe189ddb001470, type: 3}
-  - {fileID: 8575054784482078708, guid: ab70a11dbf3ec8746ba8870c03bd4859, type: 3}
+  _rareEnemyPrefab: {fileID: 356622421104872851, guid: 0010f3a21e52d0443873e7f67acd6f23, type: 3}
   _enemyContainer: {fileID: 1840060965}
   _waveNumber: 0
   _waitSeconds: 0
+  _commonPowerups:
+  - {fileID: 945003109251433766, guid: 3a4c33e4036a1c340ad8b71b343fd935, type: 3}
+  - {fileID: 6193407018733379615, guid: d802c3c369ea7e94db24f8b97decc19e, type: 3}
+  - {fileID: 7231732651798971806, guid: 6e12f71aa2fbc6342abe189ddb001470, type: 3}
+  _rarePowerups:
+  - {fileID: 1894318132779346600, guid: 3cb8eb22346b0084d8a713929fbbc950, type: 3}
+  - {fileID: 8575054784482078708, guid: ab70a11dbf3ec8746ba8870c03bd4859, type: 3}
+  - {fileID: 7263744239879103415, guid: db383e380402fdf4d80b7d013b536a41, type: 3}
+  _extraRarePowerups:
+  - {fileID: 8913333135010682130, guid: 7ba7e70f919ed09408d85d3fddb08c98, type: 3}
 --- !u!4 &243111987
 Transform:
   m_ObjectHideFlags: 0

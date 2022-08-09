@@ -367,6 +367,19 @@ public class Player : MonoBehaviour
         StartCoroutine(CannotFire());
     }
 
+    IEnumerator ResetPowerups()
+    {
+        yield return new WaitForFixedUpdate();
+    }
+
+    public void Reset()
+    {
+        if (_isNegativeActive == true && _isSecondaryActive == true && _isShieldsActive == true && _isSpeedBoostActive == true && _isTripleShotActive == true)
+        {
+            StopCoroutine(ResetPowerups());
+        }
+    }
+
     public void AddScore(int points)
     {
         _score += points;
