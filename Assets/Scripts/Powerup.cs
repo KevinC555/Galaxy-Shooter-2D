@@ -54,6 +54,9 @@ public class Powerup : MonoBehaviour
                         other.transform.GetComponent<Player>().SecondaryFire();
                         Destroy(this.gameObject);
                         break;
+                    case 6:
+                        player.NegativeEnabled();
+                        break;
                     default:
                         Debug.Log("Default Value");
                         break;

@@ -77,6 +77,9 @@ public class Player : MonoBehaviour
     private float _fuelRechargedDelay = 3f;
     private bool _canRechargeFuel = false;
 
+    [SerializeField]
+    private bool _isNegativeActive;
+
 
     // Start is called before the first frame update
     void Start()
@@ -122,7 +125,7 @@ public class Player : MonoBehaviour
     {
         CalculateMovement();
 
-        if (Input.GetKeyDown(KeyCode.Space) && Time.time > _canFire && _ammo > 0)
+        if (Input.GetKeyDown(KeyCode.Space) && Time.time > _canFire && _ammo > 0 && _isNegativeActive == false)
         {
             FireLaser();
         }
@@ -350,6 +353,18 @@ public class Player : MonoBehaviour
     {
         _isShieldsActive = true;
         _shieldVisualizer.SetActive(true);
+    }
+
+    IEnumerator CannotFire()
+    {
+        _isNegativeActive = true;
+        yield return new WaitForSeconds(5.0f);
+        _isNegativeActive = false;
+    }
+
+    public void NegativeEnabled()
+    {
+        StartCoroutine(CannotFire());
     }
 
     public void AddScore(int points)

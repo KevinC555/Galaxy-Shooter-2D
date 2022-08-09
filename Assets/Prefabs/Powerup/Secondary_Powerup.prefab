@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 4369721947385212238}
   - component: {fileID: 432196139969703467}
   - component: {fileID: 8044048809363585758}
-  - component: {fileID: -3680135398452132060}
   m_Layer: 0
   m_Name: Secondary_Powerup
   m_TagString: Powerup
@@ -77,7 +76,7 @@ SpriteRenderer:
   m_SortingLayerID: 609348007
   m_SortingLayer: 3
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: f94865ec1dc5670418fe9641ba5e8039, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 9e5ab1d258ac66248b5c2aa25fdfe93a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -85,7 +84,7 @@ SpriteRenderer:
   m_Size: {x: 3.18, y: 3.18}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!58 &4369721947385212238
@@ -138,25 +137,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 3
-  powerupID: 5
+  powerupID: 6
   _clip: {fileID: 8300000, guid: 5ee343246919d2b4bba63ae629e95494, type: 3}
---- !u!95 &-3680135398452132060
-Animator:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7231732651798971806}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 7a074723c6204de47b85181c3006d59a, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0

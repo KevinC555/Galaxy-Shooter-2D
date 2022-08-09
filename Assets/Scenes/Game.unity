@@ -745,6 +745,7 @@ MonoBehaviour:
   - {fileID: 945003109251433766, guid: 3a4c33e4036a1c340ad8b71b343fd935, type: 3}
   - {fileID: 8913333135010682130, guid: 7ba7e70f919ed09408d85d3fddb08c98, type: 3}
   - {fileID: 7231732651798971806, guid: 6e12f71aa2fbc6342abe189ddb001470, type: 3}
+  - {fileID: 8575054784482078708, guid: ab70a11dbf3ec8746ba8870c03bd4859, type: 3}
   _enemyContainer: {fileID: 1840060965}
   _waveNumber: 0
   _waitSeconds: 0
@@ -905,6 +906,7 @@ MonoBehaviour:
   _fuelLossPerSecond: 10
   _fuelRechargedPerSecond: 10
   _fuelRechargedDelay: 3
+  _isNegativeActive: 0
 --- !u!212 &276451745
 SpriteRenderer:
   m_ObjectHideFlags: 0
