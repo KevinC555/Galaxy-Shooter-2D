@@ -33,7 +33,12 @@ public class HomingMissile : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Vector2 direction = (Vector2)_target.position - rb.position;
+        Vector2 direction = Vector2.zero;
+
+        if (_target != null)
+        {
+            direction = (Vector2)_target.position - rb.position;
+        }
 
         direction.Normalize();
 

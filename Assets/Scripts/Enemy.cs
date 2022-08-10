@@ -17,10 +17,30 @@ public class Enemy : MonoBehaviour
     private float _fireRate = 3.0f;
     private float _canFire = -1;
 
+    [SerializeField]
+    private GameObject _shields;
+    private bool _isShieldsActive;
+    private int _shieldChance;
+    private int _shieldPower;
+
+    private float _distance;
+    [SerializeField]
+    private float _ramSpeed = 1.5f;
+    private float _attackRange = 4.0f;
+    private float _ramMultiplier = 2.0f;
+
     void Start()
     {
         _player = GameObject.Find("Player").GetComponent<Player>();
         _audioSource = GetComponent<AudioSource>();
+
+        _isShieldsActive = false;
+
+        if (_shields != null)
+        {
+            _shields.SetActive(false);
+            ShieldCheck();
+        }
 
         _startingXPos = transform.position.x;
 
@@ -42,6 +62,7 @@ public class Enemy : MonoBehaviour
     {
         CalculateMovement();
         ZigZagMovement();
+        RamPlayer();
 
         if (Time.time > _canFire)
         {
@@ -49,7 +70,7 @@ public class Enemy : MonoBehaviour
             _canFire = Time.time + _fireRate;
             GameObject enemyLaser = Instantiate(_laserPrefab, transform.position, Quaternion.identity);
             Laser[] lasers = enemyLaser.GetComponentsInChildren<Laser>();
-            
+
             for (int i = 0; i < lasers.Length; i++)
             {
                 lasers[i].AssignEnemyLaser();
@@ -83,6 +104,58 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    void RamPlayer()
+    {
+        _distance = Vector3.Distance(_player.transform.position, this.transform.position);
+
+        if (_distance <= _attackRange)
+        {
+            Vector3 direction = this.transform.position - _player.transform.position;
+            direction = direction.normalized;
+            this.transform.position -= direction * Time.deltaTime * (_ramSpeed * _ramMultiplier);
+        }
+    }
+
+    private void ShieldIsActive()
+    {
+        _shieldPower = 1;
+        _isShieldsActive = true;
+        _shields.SetActive(true);
+    }
+
+    private void ShieldCheck()
+    {
+        _shieldChance = Random.Range(0, 4);
+
+        if (_shieldChance <= 0) 
+        {
+            ShieldIsActive();
+        }
+    }
+
+    public void Damage()
+    {
+        if (_isShieldsActive == true)
+        {
+            _shieldPower--;
+            _shields.SetActive(false);
+            _isShieldsActive = false;
+            return;
+        }
+        else
+        {
+            _anim.SetTrigger("OnEnemyDeath");
+            _speed = 0;
+            _audioSource.Play();
+            if (_player != null)
+            {
+                _player.AddScore(10);
+            }
+            Destroy(GetComponent<Collider2D>());
+            Destroy(this.gameObject, 2.8f);
+        }
+    }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.tag == "Player")
@@ -92,14 +165,9 @@ public class Enemy : MonoBehaviour
             if (player != null)
             {
                 player.Damage();
-                _player.AddScore(10);
             }
-
-            _anim.SetTrigger("OnEnemyDeath");
-            _speed = 0;
-            _audioSource.Play();
-
-            Destroy(this.gameObject, 2.8f);
+            
+            Damage();
         }
 
         if (other.tag == "Laser")
@@ -107,18 +175,9 @@ public class Enemy : MonoBehaviour
             Laser laser = other.transform.GetComponent<Laser>();
             if (laser != null && laser.IsEnemyLaser() == false)
             {
+
                 Destroy(other.gameObject);
-                if (_player != null)
-                {
-                    _player.AddScore(10);
-                }
-
-                _anim.SetTrigger("OnEnemyDeath");
-                _speed = 0;
-                _audioSource.Play();
-
-                Destroy(GetComponent<Collider2D>());
-                Destroy(this.gameObject, 2.8f);
+                Damage();
             }
         }
     }
