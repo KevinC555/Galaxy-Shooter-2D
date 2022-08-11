@@ -133,7 +133,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4526256}
   - component: {fileID: 4526257}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Player_Right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -218,7 +218,7 @@ GameObject:
   - component: {fileID: 7558569}
   - component: {fileID: 7558570}
   - component: {fileID: 7558571}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Left_Engine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -417,7 +417,7 @@ GameObject:
   - component: {fileID: 141754439}
   - component: {fileID: 141754440}
   - component: {fileID: 141754441}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Right_Engine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -522,7 +522,7 @@ GameObject:
   - component: {fileID: 142151057}
   - component: {fileID: 142151058}
   - component: {fileID: 142151059}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Shields
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -778,7 +778,7 @@ GameObject:
   m_Component:
   - component: {fileID: 273386050}
   - component: {fileID: 273386051}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Player_Left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -865,7 +865,7 @@ GameObject:
   - component: {fileID: 276451744}
   - component: {fileID: 276451747}
   - component: {fileID: 276451748}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -1584,7 +1584,7 @@ GameObject:
   - component: {fileID: 1011160741}
   - component: {fileID: 1011160743}
   - component: {fileID: 1011160742}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Thruster
   m_TagString: Untagged
   m_Icon: {fileID: 0}

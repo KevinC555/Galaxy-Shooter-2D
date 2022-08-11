@@ -41,7 +41,7 @@ public class SpawnManager : MonoBehaviour
     public void StartSpawning()
     {
         StartCoroutine(SpawnEnemyRoutine());
-        StartCoroutine(SpawnRareEnemy());
+        //StartCoroutine(SpawnRareEnemy()); Debugging
         StartCoroutine(SpawnPowerupRoutine());
     }
 

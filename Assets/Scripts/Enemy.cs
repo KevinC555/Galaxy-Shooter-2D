@@ -29,6 +29,10 @@ public class Enemy : MonoBehaviour
     private float _attackRange = 4.0f;
     private float _ramMultiplier = 2.0f;
 
+    private float _rayDistance = 8.0f;
+    [SerializeField]
+    float _rayCastRad = 0.5f;
+
     void Start()
     {
         _player = GameObject.Find("Player").GetComponent<Player>();
@@ -61,9 +65,15 @@ public class Enemy : MonoBehaviour
     void Update()
     {
         CalculateMovement();
-        ZigZagMovement();
-        RamPlayer();
+        //ZigZagMovement();Debugging
+        //RamPlayer(); Debugging
+        BackAttack();
+        Fire();
+        DestroyPowerup();
+    }
 
+    void Fire()
+    {
         if (Time.time > _canFire)
         {
             _fireRate = Random.Range(3f, 7f);
@@ -75,6 +85,36 @@ public class Enemy : MonoBehaviour
             {
                 lasers[i].AssignEnemyLaser();
             }
+        }
+    }
+
+    private void DestroyPowerup()
+    {
+        _rayCastRad = 2.5f;
+        RaycastHit2D hit = Physics2D.CircleCast(transform.position, _rayCastRad, Vector2.down, _rayDistance, LayerMask.GetMask("collectible"));
+
+        Debug.DrawRay(transform.position, Vector3.down * _rayCastRad * _rayDistance, Color.red);
+
+        if (hit.collider != null)
+        {
+            if (hit.collider.CompareTag("Powerup") && Time.time > _canFire)
+            {
+                Debug.Log("Powerup Detected");
+                FireAtPowerup();
+            }
+        }
+    }
+
+    private void FireAtPowerup()
+    {
+        _fireRate = Random.Range(2f, 5f);
+        _canFire = Time.time + _fireRate;
+        GameObject enemyLaser = Instantiate(_laserPrefab, transform.position, Quaternion.identity);
+        Laser[] lasers = enemyLaser.GetComponentsInChildren<Laser>();
+
+        for (int i = 0; i < lasers.Length; i++)
+        {
+            lasers[i].AssignEnemyLaser();
         }
     }
 
@@ -116,6 +156,33 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    private void BackAttack()
+    {
+        RaycastHit2D hit = Physics2D.CircleCast(transform.position, _rayCastRad, Vector2.up, _rayDistance, LayerMask.GetMask("Player"));
+
+        if (hit.collider != null)
+        {
+            if (hit.collider.CompareTag("Player") && Time.time > _canFire)
+            {
+                Debug.Log("Player detected");
+                FireLaserBack();
+            }
+        }
+    }
+
+    private void FireLaserBack()
+    {
+        _fireRate = Random.Range(2f, 5f);
+        _canFire = Time.time + _fireRate;
+        GameObject enemyLaser = Instantiate(_laserPrefab, transform.position, Quaternion.Euler(transform.rotation.x, transform.rotation.y, 180.0f));
+        Laser[] lasers = enemyLaser.GetComponentsInChildren<Laser>();
+
+        for (int i = 0; i < lasers.Length; i++)
+        {
+            lasers[i].AssignEnemyLaser();
+        }
+    }
+
     private void ShieldIsActive()
     {
         _shieldPower = 1;
@@ -133,7 +200,7 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    public void Damage()
+    public void DamageEnemy()
     {
         if (_isShieldsActive == true)
         {
@@ -166,18 +233,17 @@ public class Enemy : MonoBehaviour
             {
                 player.Damage();
             }
-            
-            Damage();
+            DamageEnemy();
         }
 
         if (other.tag == "Laser")
         {
             Laser laser = other.transform.GetComponent<Laser>();
+
             if (laser != null && laser.IsEnemyLaser() == false)
             {
-
                 Destroy(other.gameObject);
-                Damage();
+                DamageEnemy();
             }
         }
     }

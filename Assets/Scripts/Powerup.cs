@@ -9,8 +9,21 @@ public class Powerup : MonoBehaviour
     [SerializeField]
     private int powerupID;
 
+    private GameObject Player;
+    private float _magnetSpeed = 5.0f;
+
     [SerializeField]
     private AudioClip _clip;
+
+    private void Start()
+    {
+        Player = GameObject.FindGameObjectWithTag("Player");
+
+        if (Player == null)
+        {
+            Debug.LogError("The Player is null.");
+        }
+    }
 
     // Update is called once per frame
     void Update()
@@ -21,6 +34,16 @@ public class Powerup : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
+
+        if (Input.GetKey(KeyCode.C))
+        {
+            Magnet();
+        }
+    }
+
+    private void Magnet()
+    {
+        transform.position = Vector3.Lerp(this.transform.position, Player.transform.position, _magnetSpeed * Time.deltaTime);
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -33,7 +56,7 @@ public class Powerup : MonoBehaviour
 
             if (player != null)
             {
-                switch(powerupID)
+                switch (powerupID)
                 {
                     case 0:
                         player.TripleShotActive();
@@ -63,6 +86,12 @@ public class Powerup : MonoBehaviour
                 }
             }
 
+            Destroy(this.gameObject);
+        }
+
+        if (other.tag == "Laser")
+        {
+            Destroy(other.gameObject);
             Destroy(this.gameObject);
         }
     }
