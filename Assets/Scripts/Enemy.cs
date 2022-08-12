@@ -246,5 +246,11 @@ public class Enemy : MonoBehaviour
                 DamageEnemy();
             }
         }
+
+        if (other.tag == "Projectile")
+        {
+            Destroy(other.gameObject);
+            DamageEnemy();
+        }
     }
 }

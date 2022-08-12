@@ -9,6 +9,8 @@ public class SpawnManager : MonoBehaviour
     [SerializeField]
     private GameObject _rareEnemyPrefab;
     [SerializeField]
+    private GameObject _dodgeEnemyPrefab;
+    [SerializeField]
     private GameObject _enemyContainer;
     private bool _stopSpawning = false;
 
@@ -41,7 +43,8 @@ public class SpawnManager : MonoBehaviour
     public void StartSpawning()
     {
         StartCoroutine(SpawnEnemyRoutine());
-        //StartCoroutine(SpawnRareEnemy()); Debugging
+        StartCoroutine(SpawnRareEnemy());
+        StartCoroutine(SpawnDodgeEnemy());
         StartCoroutine(SpawnPowerupRoutine());
     }
 
@@ -80,6 +83,20 @@ public class SpawnManager : MonoBehaviour
         {
             Vector3 posToSpawn = new Vector3(Random.Range(-8f, 8f), 9, 0);
             GameObject newEnemy = Instantiate(_rareEnemyPrefab, posToSpawn, Quaternion.identity);
+            newEnemy.transform.parent = _enemyContainer.transform;
+
+            yield return new WaitForSeconds(6f);
+        }
+    }
+
+    IEnumerator SpawnDodgeEnemy()
+    {
+        yield return new WaitForSeconds(2.0f);
+
+        while (_stopSpawning == false)
+        {
+            Vector3 posToSpawn = new Vector3(Random.Range(-8f, 8f), 9, 0);
+            GameObject newEnemy = Instantiate(_dodgeEnemyPrefab, posToSpawn, Quaternion.identity);
             newEnemy.transform.parent = _enemyContainer.transform;
 
             yield return new WaitForSeconds(6f);

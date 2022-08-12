@@ -4,16 +4,14 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    //public or private reference
-    //data type (int, float, bool, string)
-    //every variable has a name
-    //optional value assigned
     [SerializeField]
     private GameObject _laserPrefab;
     [SerializeField]
     private GameObject _tripleShotPrefab;
     [SerializeField]
     private GameObject _secondaryPrefab;
+    [SerializeField]
+    private GameObject _playerMissilePrefab;
     [SerializeField]
     private float _fireRate = 0.5f;
     private float _canFire = -1f;
@@ -44,6 +42,8 @@ public class Player : MonoBehaviour
     private int _score;
     [SerializeField]
     private int _ammo;
+    [SerializeField]
+    private int _missiles;
 
     private UIManager _uiManager;
 
@@ -79,7 +79,6 @@ public class Player : MonoBehaviour
 
     [SerializeField]
     private bool _isNegativeActive;
-
 
     // Start is called before the first frame update
     void Start()
@@ -133,6 +132,15 @@ public class Player : MonoBehaviour
         {
             AudioSource.PlayClipAtPoint(_ammolessAudio, transform.position);
 
+        }
+
+        if (Input.GetKeyDown(KeyCode.F) && _missiles > 0)
+        {
+            FireMissile();
+        }
+        else if (Input.GetKeyDown(KeyCode.F) && _missiles <= 0)
+        {
+            AudioSource.PlayClipAtPoint(_ammolessAudio, transform.position);
         }
     }
 
@@ -199,6 +207,13 @@ public class Player : MonoBehaviour
         _uiManager.UpdateAmmo(_ammo);
 
         _audioSource.Play();
+    }
+
+    void FireMissile()
+    {
+                Instantiate(_playerMissilePrefab, transform.position, Quaternion.identity);
+                _missiles--;
+                _uiManager.UpdateMissiles(_missiles);
     }
 
     float CheckThrusters(bool isMoving)
@@ -367,19 +382,6 @@ public class Player : MonoBehaviour
         StartCoroutine(CannotFire());
     }
 
-    IEnumerator ResetPowerups()
-    {
-        yield return new WaitForFixedUpdate();
-    }
-
-    public void Reset()
-    {
-        if (_isNegativeActive == true && _isSecondaryActive == true && _isShieldsActive == true && _isSpeedBoostActive == true && _isTripleShotActive == true)
-        {
-            StopCoroutine(ResetPowerups());
-        }
-    }
-
     public void AddScore(int points)
     {
         _score += points;
@@ -392,18 +394,21 @@ public class Player : MonoBehaviour
         return _score;
     }
 
-    public void AddAmmo(int bullets)
+    public void AddAmmo(int bullets, int missiles)
     {
-        if (bullets >= _ammo)
+        if (bullets >= _ammo && missiles >= _missiles)
         {
             _ammo = 15;
+            _missiles = 3;
         }
         else
         {
             _ammo += bullets;
+            _missiles += missiles;
         }
         
         _uiManager.UpdateAmmo(_ammo);
+        _uiManager.UpdateMissiles(_missiles);
     }
 
     public void AddHealth()
