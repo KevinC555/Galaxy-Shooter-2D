@@ -21,20 +21,19 @@ public class UIManager : MonoBehaviour
     private Text _restartText;
     [SerializeField]
     private Text _waveText;
-    [SerializeField]
-    private Text _waveTextRequirement;
 
     private GameManager _gameManager;
 
     [SerializeField]
     private Slider _fuelGauge;
-
     [SerializeField]
     private Text _fuelText;
     [SerializeField]
     private string _fuelGaugeString = "Full";
     [SerializeField]
     private string _emptyGaugeString = "Emptying";
+
+    private SpawnManager _spawnManager;
 
     // Start is called before the first frame update
     void Start()
@@ -44,10 +43,16 @@ public class UIManager : MonoBehaviour
         _missileText.text = "Missiles: " + 3 + " / 3";
         _gameOverText.gameObject.SetActive(false);
         _gameManager = GameObject.Find("Game_Manager").GetComponent<GameManager>();
+        _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
 
         if (_gameManager == null)
         {
             Debug.LogError("GameManager is NULL.");
+        }
+
+        if (_spawnManager == null)
+        {
+            Debug.LogError("SpawnManager is null.");
         }
     }   
 
@@ -68,7 +73,14 @@ public class UIManager : MonoBehaviour
 
     public void UpdateLives(int currentLives)
     {
-        _LivesImg.sprite = _liveSprites[currentLives];
+        if (currentLives < 0)
+        {
+            Debug.Log("Lives were les than 0");
+        }
+        else
+        {
+            _LivesImg.sprite = _liveSprites[currentLives];
+        }
 
         if (currentLives <= 0)
         {
@@ -91,13 +103,20 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void UpdateWave(int _waveNumber)
+    public void UpdateWave(int _currentWave)
     {
         _waveText.gameObject.SetActive(true);
-        _waveText.text = "Wave: " + _waveNumber;
-        _waveTextRequirement.gameObject.SetActive(true);
-        _waveTextRequirement.text = "Earn " + 50 * _waveNumber + " points to reach next Wave";
+        _waveText.text = "Wave: " + _currentWave;
         StartCoroutine(WaveTextInactive());
+    }
+
+    IEnumerator WaveTextInactive()
+    {
+        if (_waveText.gameObject.activeInHierarchy)
+        {
+            yield return new WaitForSeconds(3);
+            _waveText.gameObject.SetActive(false);
+        }
     }
 
     void GameOverSequence()
@@ -118,15 +137,4 @@ public class UIManager : MonoBehaviour
             yield return new WaitForSeconds(0.5f);
         }
     }
-
-    IEnumerator WaveTextInactive()
-    {
-        if (_waveText.gameObject.activeInHierarchy)
-        {
-            yield return new WaitForSeconds(3);
-            _waveText.gameObject.SetActive(false);
-            _waveTextRequirement.gameObject.SetActive(false);
-        }
-    }
-
 }

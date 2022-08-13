@@ -5,21 +5,23 @@ using UnityEngine;
 public class SpawnManager : MonoBehaviour
 {
     [SerializeField]
-    private GameObject _enemyPrefab;
-    [SerializeField]
-    private GameObject _rareEnemyPrefab;
-    [SerializeField]
-    private GameObject _dodgeEnemyPrefab;
-    [SerializeField]
     private GameObject _enemyContainer;
     private bool _stopSpawning = false;
 
     [SerializeField]
-    private int _waveNumber;
+    private GameObject[] _wave1;
     [SerializeField]
-    private int _waitSeconds;
+    private GameObject[] _wave2;
+    [SerializeField]
+    private GameObject[] _wave3;
+    [SerializeField]
+    private GameObject[] _wave4;
+    [SerializeField]
+    private GameObject[] _wave5;
 
-    private WaveManager _waveManager;
+    private int _currentWave = 1;
+
+    private UIManager _uiManager;
 
     [SerializeField]
     private GameObject[] _commonPowerups;
@@ -28,78 +30,81 @@ public class SpawnManager : MonoBehaviour
     [SerializeField]
     private GameObject[] _extraRarePowerups;
 
-    public void Start()
+    [SerializeField]
+    private GameObject[] _enemyPrefabs;
+
+    private void Start()
     {
-        _waveNumber = 1;
+        _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
 
-        _waveManager = GameObject.Find("Wave_Manager").GetComponent<WaveManager>();
-
-        if (_waveManager == null)
+        if (_uiManager == null)
         {
-            Debug.LogError("WaveManager is null.");
+            Debug.LogError("The UI Manager is null.");
         }
     }
 
     public void StartSpawning()
     {
-        StartCoroutine(SpawnEnemyRoutine());
-        StartCoroutine(SpawnRareEnemy());
-        StartCoroutine(SpawnDodgeEnemy());
+        StartCoroutine(SpawnEnemies());
         StartCoroutine(SpawnPowerupRoutine());
     }
 
-    IEnumerator SpawnEnemyRoutine()
+    IEnumerator SpawnEnemies()
     {
-        int count = 0;
-
-        yield return new WaitForSeconds(2.0f);
-
-        while (_stopSpawning == false && count < 5)
-        {
-            if (_waveNumber < 6)
-            {
-                _waitSeconds = 6;
-                _waitSeconds -= _waveNumber;
-            }
-            else
-            {
-                _waitSeconds = 1;
-            }
-
-            Vector3 posToSpawn = new Vector3(Random.Range(-8f, 8f), 9, 0);
-            GameObject newEnemy = Instantiate(_enemyPrefab, posToSpawn, Quaternion.identity);
-            newEnemy.transform.parent = _enemyContainer.transform;
-            count++;
-
-            yield return new WaitForSeconds(_waitSeconds);
-        }
-    }
-
-    IEnumerator SpawnRareEnemy()
-    {
-        yield return new WaitForSeconds(2.0f);
-
         while (_stopSpawning == false)
         {
-            Vector3 posToSpawn = new Vector3(Random.Range(-8f, 8f), 9, 0);
-            GameObject newEnemy = Instantiate(_rareEnemyPrefab, posToSpawn, Quaternion.identity);
-            newEnemy.transform.parent = _enemyContainer.transform;
-
-            yield return new WaitForSeconds(6f);
-        }
-    }
-
-    IEnumerator SpawnDodgeEnemy()
-    {
-        yield return new WaitForSeconds(2.0f);
-
-        while (_stopSpawning == false)
-        {
-            Vector3 posToSpawn = new Vector3(Random.Range(-8f, 8f), 9, 0);
-            GameObject newEnemy = Instantiate(_dodgeEnemyPrefab, posToSpawn, Quaternion.identity);
-            newEnemy.transform.parent = _enemyContainer.transform;
-
-            yield return new WaitForSeconds(6f);
+            switch (_currentWave)
+            {
+                case 1:
+                    _uiManager.UpdateWave(_currentWave);
+                    _currentWave++;
+                    foreach (GameObject enemy in _wave1)
+                    {
+                        SpawnEnemy();
+                        yield return new WaitForSeconds(1.0f);
+                    }
+                    break;
+                case 2:
+                    _uiManager.UpdateWave(_currentWave);
+                    _currentWave++;
+                    foreach (GameObject enemy in _wave2)
+                    {
+                        SpawnEnemy();
+                        yield return new WaitForSeconds(1.0f);
+                    }
+                    break;
+                case 3:
+                    _uiManager.UpdateWave(_currentWave);
+                    _currentWave++;
+                    foreach (GameObject enemy in _wave3)
+                    {
+                        SpawnEnemy();
+                        yield return new WaitForSeconds(1.0f);
+                    }
+                    break;
+                case 4:
+                    _uiManager.UpdateWave(_currentWave);
+                    _currentWave++;
+                    foreach (GameObject enemy in _wave4)
+                    {
+                        SpawnEnemy();
+                        yield return new WaitForSeconds(1.0f);
+                    }
+                    break;
+                case 5:
+                    _uiManager.UpdateWave(_currentWave);
+                    _currentWave++;
+                    foreach (GameObject enemy in _wave5)
+                    {
+                        SpawnEnemy();
+                        yield return new WaitForSeconds(1.0f);
+                    }
+                    break;
+                default:
+                    Debug.Log("All out of waves.");
+                    break;
+            }
+            yield return new WaitForSeconds(10.0f);
         }
     }
 
@@ -144,10 +149,19 @@ public class SpawnManager : MonoBehaviour
         }
     }
 
+    private void SpawnEnemy()
+    {
+        int _randomEnemyPrefab = Random.Range(0, _enemyPrefabs.Length);
+        Vector3 posToSpawn = new Vector3(Random.Range(-8f, 8f), 9, 0);
+        GameObject newEnemy = Instantiate(_enemyPrefabs[_randomEnemyPrefab], posToSpawn, Quaternion.identity);
+        newEnemy.transform.parent = _enemyContainer.transform;
+    }
+
     public void OnPlayerDeath()
     {
         _stopSpawning = true;
         DestroyAll("Enemy", "Powerup", "EnemyLaser");
+        StopAllCoroutines();
     }
 
     public void DestroyAll(string Enemy, string Powerup, string EnemyLaser)
@@ -167,11 +181,5 @@ public class SpawnManager : MonoBehaviour
         {
             GameObject.Destroy(target);
         }
-    }
-
-    public void OnNextWave()
-    {
-        _waveNumber = _waveManager.GetWave();
-        _stopSpawning = false;
     }
 }

@@ -36,6 +36,7 @@ public class Enemy : MonoBehaviour
     void Start()
     {
         _player = GameObject.Find("Player").GetComponent<Player>();
+
         _audioSource = GetComponent<AudioSource>();
 
         _isShieldsActive = false;
@@ -65,8 +66,8 @@ public class Enemy : MonoBehaviour
     void Update()
     {
         CalculateMovement();
-        //ZigZagMovement();Debugging
-        //RamPlayer(); Debugging
+        ZigZagMovement();
+        RamPlayer();
         BackAttack();
         Fire();
         DestroyPowerup();

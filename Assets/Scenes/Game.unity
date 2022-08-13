@@ -737,12 +737,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf331ab481418224eabbb100c2442345, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemyPrefab: {fileID: 3113042194864590440, guid: 2771df549647fc64380a20be46f68758, type: 3}
-  _rareEnemyPrefab: {fileID: 356622421104872851, guid: 0010f3a21e52d0443873e7f67acd6f23, type: 3}
-  _dodgeEnemyPrefab: {fileID: 4860860714242596461, guid: a462eee7b48c1264abc7a047ea106f79, type: 3}
   _enemyContainer: {fileID: 1840060965}
-  _waveNumber: 0
-  _waitSeconds: 0
+  _wave1:
+  - {fileID: 0}
+  - {fileID: 0}
+  _wave2:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  _wave3:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  _wave4:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  _wave5:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   _commonPowerups:
   - {fileID: 945003109251433766, guid: 3a4c33e4036a1c340ad8b71b343fd935, type: 3}
   - {fileID: 6193407018733379615, guid: d802c3c369ea7e94db24f8b97decc19e, type: 3}
@@ -753,6 +771,10 @@ MonoBehaviour:
   - {fileID: 7263744239879103415, guid: db383e380402fdf4d80b7d013b536a41, type: 3}
   _extraRarePowerups:
   - {fileID: 8913333135010682130, guid: 7ba7e70f919ed09408d85d3fddb08c98, type: 3}
+  _enemyPrefabs:
+  - {fileID: 3113042194864590440, guid: 2771df549647fc64380a20be46f68758, type: 3}
+  - {fileID: 356622421104872851, guid: 0010f3a21e52d0443873e7f67acd6f23, type: 3}
+  - {fileID: 4860860714242596461, guid: a462eee7b48c1264abc7a047ea106f79, type: 3}
 --- !u!4 &243111987
 Transform:
   m_ObjectHideFlags: 0
@@ -1531,8 +1553,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -100, y: -50}
-  m_SizeDelta: {x: 96.7523, y: 28.4821}
+  m_AnchoredPosition: {x: -74.18799, y: -50}
+  m_SizeDelta: {x: 148.38, y: 28.4821}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &804185559
 MonoBehaviour:
@@ -2139,7 +2161,6 @@ MonoBehaviour:
   _gameOverText: {fileID: 960152627}
   _restartText: {fileID: 2116337688}
   _waveText: {fileID: 696994964}
-  _waveTextRequirement: {fileID: 2041409688}
   _fuelGauge: {fileID: 192680267}
   _fuelText: {fileID: 2114588826}
   _fuelGaugeString: Fuel
@@ -2333,52 +2354,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1489833916}
   m_CullTransparentMesh: 1
---- !u!1 &1512287349
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1512287351}
-  - component: {fileID: 1512287350}
-  m_Layer: 0
-  m_Name: Wave_Manager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1512287350
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1512287349}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 219b20b10bcf3b044a768fb85d61e8ec, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _waveNumber: 0
-  _score: 0
---- !u!4 &1512287351
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1512287349}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 415.9399, y: 78.87462, z: -5.7571874}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 11
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1532500702
 GameObject:
   m_ObjectHideFlags: 0

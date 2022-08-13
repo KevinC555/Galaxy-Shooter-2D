@@ -18,7 +18,6 @@ public class Player : MonoBehaviour
     [SerializeField]
     private int _lives = 3;
     private SpawnManager _spawnManager;
-    private WaveManager _waveManager;
     private CameraShake _camera;
     
     private bool _isTripleShotActive = false;
@@ -87,7 +86,6 @@ public class Player : MonoBehaviour
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
         _camera = GameObject.Find("Main Camera").GetComponent<CameraShake>();
-        _waveManager = GameObject.Find("Wave_Manager").GetComponent<WaveManager>();
         _audioSource = GetComponent<AudioSource>();
         material = _shieldVisualizer.GetComponent<Renderer>().material;
 
@@ -108,10 +106,6 @@ public class Player : MonoBehaviour
         if (_camera == null)
         {
             Debug.LogError("Camera is null.");
-        }
-        if (_waveManager == null)
-        {
-            Debug.LogError("WaveManager is null.");
         }
         else
         {
@@ -386,7 +380,6 @@ public class Player : MonoBehaviour
     {
         _score += points;
         _uiManager.UpdateScore(_score);
-        _waveManager.AddWave();
     }
 
     public int GetScore()
