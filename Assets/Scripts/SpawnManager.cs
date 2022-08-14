@@ -33,6 +33,9 @@ public class SpawnManager : MonoBehaviour
     [SerializeField]
     private GameObject[] _enemyPrefabs;
 
+    [SerializeField]
+    private GameObject _bossPrefab;
+
     private void Start()
     {
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
@@ -100,11 +103,18 @@ public class SpawnManager : MonoBehaviour
                         yield return new WaitForSeconds(1.0f);
                     }
                     break;
+                case 6:
+                    _uiManager.UpdateWave(_currentWave);
+                    _uiManager.SetBossHealth(100);
+                    _currentWave++;
+                    StopCoroutine(SpawnEnemies());
+                    SpawnBoss();
+                    break;
                 default:
                     Debug.Log("All out of waves.");
                     break;
             }
-            yield return new WaitForSeconds(10.0f);
+            yield return new WaitForSeconds(3.0f);
         }
     }
 
@@ -155,6 +165,13 @@ public class SpawnManager : MonoBehaviour
         Vector3 posToSpawn = new Vector3(Random.Range(-8f, 8f), 9, 0);
         GameObject newEnemy = Instantiate(_enemyPrefabs[_randomEnemyPrefab], posToSpawn, Quaternion.identity);
         newEnemy.transform.parent = _enemyContainer.transform;
+    }
+
+    private void SpawnBoss()
+    {
+        Vector3 posToSpawn = new Vector3(0, 10f, 0);
+        GameObject newBoss = Instantiate(_bossPrefab, posToSpawn, Quaternion.identity);
+        newBoss.transform.parent = _enemyContainer.transform;
     }
 
     public void OnPlayerDeath()

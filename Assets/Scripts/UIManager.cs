@@ -35,6 +35,9 @@ public class UIManager : MonoBehaviour
 
     private SpawnManager _spawnManager;
 
+    [SerializeField]
+    private Slider _healthBar;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -55,6 +58,23 @@ public class UIManager : MonoBehaviour
             Debug.LogError("SpawnManager is null.");
         }
     }   
+
+    public void SetBossHealth(int bossHealthMax)
+    {
+        _healthBar.gameObject.SetActive(true);
+        _healthBar.maxValue = bossHealthMax;
+        _healthBar.value = _healthBar.maxValue;
+    }
+
+    public void DamageBoss(int bossHealth)
+    {
+        _healthBar.value = bossHealth;
+    }
+
+    public void TurnOffHealthBar()
+    {
+        _healthBar.gameObject.SetActive(false);
+    }
 
     public void UpdateScore(int playerScore)
     {

@@ -22,6 +22,8 @@ public class PlayerMissile : MonoBehaviour
     void Update()
     {
         HomeInOnTarget();
+
+        Destroy(this.gameObject, 5f);
     }
 
     private GameObject GetNearestEnemy()
