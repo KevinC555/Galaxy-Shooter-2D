@@ -69,6 +69,11 @@ public class UIManager : MonoBehaviour
     public void DamageBoss(int bossHealth)
     {
         _healthBar.value = bossHealth;
+
+        if (bossHealth <= 0)
+        {
+            GameOverSequence();
+        }
     }
 
     public void TurnOffHealthBar()

@@ -775,11 +775,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enemyContainer: {fileID: 1840060965}
-  _wave1: []
-  _wave2: []
-  _wave3: []
-  _wave4: []
-  _wave5: []
+  _wave1:
+  - {fileID: 0}
+  - {fileID: 0}
+  _wave2:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  _wave3:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  _wave4:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  _wave5:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   _commonPowerups:
   - {fileID: 945003109251433766, guid: 3a4c33e4036a1c340ad8b71b343fd935, type: 3}
   - {fileID: 6193407018733379615, guid: d802c3c369ea7e94db24f8b97decc19e, type: 3}

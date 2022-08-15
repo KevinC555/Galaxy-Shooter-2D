@@ -114,7 +114,7 @@ public class SpawnManager : MonoBehaviour
                     Debug.Log("All out of waves.");
                     break;
             }
-            yield return new WaitForSeconds(3.0f);
+            yield return new WaitForSeconds(11.0f);
         }
     }
 
