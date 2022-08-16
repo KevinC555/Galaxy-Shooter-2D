@@ -362,6 +362,7 @@ public class Player : MonoBehaviour
     {
         _isShieldsActive = true;
         _shieldVisualizer.SetActive(true);
+        _shieldLives = 3;
     }
 
     IEnumerator CannotFire()

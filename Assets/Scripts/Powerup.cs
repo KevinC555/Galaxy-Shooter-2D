@@ -6,10 +6,10 @@ public class Powerup : MonoBehaviour
 {
     [SerializeField]
     private float _speed = 3.0f;
-    [SerializeField]
-    private int powerupID;
 
-    private GameObject Player;
+    public int powerupID;
+
+    private GameObject _player;
     private float _magnetSpeed = 5.0f;
 
     [SerializeField]
@@ -17,9 +17,9 @@ public class Powerup : MonoBehaviour
 
     private void Start()
     {
-        Player = GameObject.FindGameObjectWithTag("Player");
+        _player = GameObject.FindGameObjectWithTag("Player");
 
-        if (Player == null)
+        if (_player == null)
         {
             Debug.LogError("The Player is null.");
         }
@@ -43,7 +43,7 @@ public class Powerup : MonoBehaviour
 
     private void Magnet()
     {
-        transform.position = Vector3.Lerp(this.transform.position, Player.transform.position, _magnetSpeed * Time.deltaTime);
+        transform.position = Vector3.Lerp(this.transform.position, _player.transform.position, _magnetSpeed * Time.deltaTime);
     }
 
     private void OnTriggerEnter2D(Collider2D other)

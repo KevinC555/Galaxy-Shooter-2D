@@ -108,14 +108,17 @@ public class Enemy : MonoBehaviour
 
     private void FireAtPowerup()
     {
-        _fireRate = Random.Range(2f, 5f);
-        _canFire = Time.time + _fireRate;
-        GameObject enemyLaser = Instantiate(_laserPrefab, transform.position, Quaternion.identity);
-        Laser[] lasers = enemyLaser.GetComponentsInChildren<Laser>();
-
-        for (int i = 0; i < lasers.Length; i++)
+        if (Time.time > _canFire)
         {
-            lasers[i].AssignEnemyLaser();
+            _fireRate = Random.Range(2f, 5f);
+            _canFire = Time.time + _fireRate;
+            GameObject enemyLaser = Instantiate(_laserPrefab, transform.position, Quaternion.identity);
+            Laser[] lasers = enemyLaser.GetComponentsInChildren<Laser>();
+
+            for (int i = 0; i < lasers.Length; i++)
+            {
+                lasers[i].AssignEnemyLaser();
+            }
         }
     }
 
@@ -173,14 +176,17 @@ public class Enemy : MonoBehaviour
 
     private void FireLaserBack()
     {
-        _fireRate = Random.Range(2f, 5f);
-        _canFire = Time.time + _fireRate;
-        GameObject enemyLaser = Instantiate(_laserPrefab, transform.position, Quaternion.Euler(transform.rotation.x, transform.rotation.y, 180.0f));
-        Laser[] lasers = enemyLaser.GetComponentsInChildren<Laser>();
-
-        for (int i = 0; i < lasers.Length; i++)
+        if (Time.time > _canFire)
         {
-            lasers[i].AssignEnemyLaser();
+            _fireRate = Random.Range(2f, 5f);
+            _canFire = Time.time + _fireRate;
+            GameObject enemyLaser = Instantiate(_laserPrefab, transform.position, Quaternion.Euler(transform.rotation.x, transform.rotation.y, 180.0f));
+            Laser[] lasers = enemyLaser.GetComponentsInChildren<Laser>();
+
+            for (int i = 0; i < lasers.Length; i++)
+            {
+                lasers[i].AssignEnemyLaser();
+            }
         }
     }
 
@@ -214,6 +220,7 @@ public class Enemy : MonoBehaviour
         {
             _anim.SetTrigger("OnEnemyDeath");
             _speed = 0;
+            _canFire = 0;
             _audioSource.Play();
             if (_player != null)
             {

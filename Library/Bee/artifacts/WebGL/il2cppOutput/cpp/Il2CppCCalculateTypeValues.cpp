@@ -13675,20 +13675,20 @@ struct U3COnFinishSubmitU3Ed__9_t55620C8613B09E9D27E197A064B9C249B6F13164  : pub
 	float ___U3CelapsedTimeU3E5__3_4;
 };
 
-// CameraShake/<ShakeCamera>d__3
-struct U3CShakeCameraU3Ed__3_tA7C37D19868BF8D3D703AB0BDBB78D9310541CFA  : public RuntimeObject
+// CameraShake/<ShakeCamera>d__2
+struct U3CShakeCameraU3Ed__2_t41D5C7A3276D5F2624EBB459612F01F1844C14F1  : public RuntimeObject
 {
-	// System.Int32 CameraShake/<ShakeCamera>d__3::<>1__state
+	// System.Int32 CameraShake/<ShakeCamera>d__2::<>1__state
 	int32_t ___U3CU3E1__state_0;
-	// System.Object CameraShake/<ShakeCamera>d__3::<>2__current
+	// System.Object CameraShake/<ShakeCamera>d__2::<>2__current
 	RuntimeObject* ___U3CU3E2__current_1;
-	// System.Single CameraShake/<ShakeCamera>d__3::strength
+	// System.Single CameraShake/<ShakeCamera>d__2::strength
 	float ___strength_2;
-	// CameraShake CameraShake/<ShakeCamera>d__3::<>4__this
+	// CameraShake CameraShake/<ShakeCamera>d__2::<>4__this
 	CameraShake_tAC55122F42E0B2A0581731E4C9799A5A8A0D7CA1* ___U3CU3E4__this_3;
-	// System.Single CameraShake/<ShakeCamera>d__3::duration
+	// System.Single CameraShake/<ShakeCamera>d__2::duration
 	float ___duration_4;
-	// System.Single CameraShake/<ShakeCamera>d__3::<_elapsed>5__2
+	// System.Single CameraShake/<ShakeCamera>d__2::<_elapsed>5__2
 	float ___U3C_elapsedU3E5__2_5;
 };
 
@@ -49051,8 +49051,8 @@ struct Powerup_tC23775377E84428B297367379C3B4BF02908F829  : public MonoBehaviour
 	float ____speed_4;
 	// System.Int32 Powerup::powerupID
 	int32_t ___powerupID_5;
-	// UnityEngine.GameObject Powerup::Player
-	GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* ___Player_6;
+	// UnityEngine.GameObject Powerup::_player
+	GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* ____player_6;
 	// System.Single Powerup::_magnetSpeed
 	float ____magnetSpeed_7;
 	// UnityEngine.AudioClip Powerup::_clip
@@ -58201,7 +58201,7 @@ const Il2CppTypeDefinitionSizes g_typeDefinitionSize3436 = { sizeof(Asteroid_tF9
 extern const Il2CppTypeDefinitionSizes g_typeDefinitionSize3437;
 const Il2CppTypeDefinitionSizes g_typeDefinitionSize3437 = { sizeof(Boss_t4DBE208D2EA8221CCAD7D974BD8069279DB7CC35), -1, 0, 0 };
 extern const Il2CppTypeDefinitionSizes g_typeDefinitionSize3438;
-const Il2CppTypeDefinitionSizes g_typeDefinitionSize3438 = { sizeof(U3CShakeCameraU3Ed__3_tA7C37D19868BF8D3D703AB0BDBB78D9310541CFA), -1, 0, 0 };
+const Il2CppTypeDefinitionSizes g_typeDefinitionSize3438 = { sizeof(U3CShakeCameraU3Ed__2_t41D5C7A3276D5F2624EBB459612F01F1844C14F1), -1, 0, 0 };
 extern const Il2CppTypeDefinitionSizes g_typeDefinitionSize3439;
 const Il2CppTypeDefinitionSizes g_typeDefinitionSize3439 = { sizeof(CameraShake_tAC55122F42E0B2A0581731E4C9799A5A8A0D7CA1), -1, 0, 0 };
 extern const Il2CppTypeDefinitionSizes g_typeDefinitionSize3440;

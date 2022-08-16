@@ -12,12 +12,6 @@ public class CameraShake : MonoBehaviour
         _originalPosition = transform.position;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public IEnumerator ShakeCamera (float duration, float strength)
     {
         float _elapsed = 0.0f;
